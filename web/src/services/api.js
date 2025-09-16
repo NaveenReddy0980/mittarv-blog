@@ -1,22 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import axios from 'axios';
 
-export const api = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth?.token;
-      if (token) headers.set('authorization', `Bearer ${token}`);
-      return headers;
-    }
-  }),
-  endpoints: (builder) => ({
-    getPosts: builder.query({ query: () => '/posts' }),
-    getPostBySlug: builder.query({ query: (slug) => `/posts/${slug}` }),
-    createPost: builder.mutation({ query: (body) => ({ url: '/posts', method: 'POST', body }) }),
-    login: builder.mutation({ query: (credentials) => ({ url: '/auth/login', method: 'POST', body: credentials }) }),
-    register: builder.mutation({ query: (data) => ({ url: '/auth/register', method: 'POST', body: data }) }),
-  }),
+const API_URL = 'http://localhost:4000'; // Backend
+
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-export const { useGetPostsQuery, useGetPostBySlugQuery, useCreatePostMutation, useLoginMutation, useRegisterMutation } = api;
+// Add token automatically if stored
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;

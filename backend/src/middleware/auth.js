@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
-const prisma = require('../prisma');
+// src/middleware/auth.js
+import jwt from 'jsonwebtoken';
+import prisma from '../prisma.js';
 
-module.exports = async function (req, res, next) {
+export default async function (req, res, next) {
   const header = req.headers.authorization;
   if (!header) return res.status(401).json({ error: 'Missing Authorization header' });
 

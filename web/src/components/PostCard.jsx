@@ -1,18 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function PostCard({ post }){
-  const tags = post.tags ? post.tags.split(',') : [];
+const PostCard = ({ post }) => {
   return (
-    <article className="card">
-      <h3><Link to={`/post/${post.slug}`}>{post.title}</Link></h3>
-      <p>{post.excerpt || post.content.slice(0,150)}</p>
-      <div className="meta">
-        <span>By {post.author?.name}</span>
-        <div className="tags">
-          {tags.map(t => <span key={t} className="tag">{t}</span>)}
-        </div>
+    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 mb-6">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-3">
+        {post.title}
+      </h2>
+      <p className="text-gray-600 mb-4">
+        {post.content.slice(0, 150)}...
+      </p>
+      <div className="flex justify-between items-center">
+        <span className="text-sm text-gray-500">By {post.author}</span>
+        <Link
+          to={`/post/${post.id}`}
+          className="text-blue-600 hover:underline font-medium"
+        >
+          Read More →
+        </Link>
       </div>
-    </article>
+    </div>
   );
-}
+};
+
+export default PostCard;

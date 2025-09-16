@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { useCreatePostMutation } from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
 
-export default function NewPost(){
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tagsText, setTagsText] = useState('');
-  const [createPost] = useCreatePostMutation();
-  const nav = useNavigate();
-
-  async function onSubmit(e) {
-    e.preventDefault();
-    const tags = tagsText.split(',').map(t => t.trim()).filter(Boolean);
-    const body = { title, content, tags, published: true };
-    try {
-      const post = await createPost(body).unwrap();
-      nav(`/post/${post.slug}`);
-    } catch (err) {
-      console.error(err);
-      alert('Error creating post');
-    }
-  }
-
+const NewPost = () => {
   return (
-    <div className="container">
-      <h1>New Post</h1>
-      <form onSubmit={onSubmit}>
-        <input placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} required/>
-        <ReactQuill value={content} onChange={setContent}/>
-        <input placeholder="tags (comma separated)" value={tagsText} onChange={e=>setTagsText(e.target.value)} />
-        <button type="submit">Publish</button>
+    <div className="container mx-auto px-6 py-10">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Create New Post</h1>
+      <form className="space-y-4 max-w-2xl">
+        <input
+          type="text"
+          placeholder="Post Title"
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+        />
+        <textarea
+          placeholder="Write your content..."
+          rows="6"
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+        <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+          Publish
+        </button>
       </form>
     </div>
   );
-}
+};
+
+export default NewPost;

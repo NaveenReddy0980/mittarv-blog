@@ -1,25 +1,25 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import NewPost from './pages/NewPost';
-import PostView from './pages/PostView';
-import TopNav from './components/TopNav';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import NewPost from "./pages/NewPost";
+import EditPost from "./pages/EditPost";
+import PostView from "./pages/PostView";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import TopNav from "./components/TopNav";
 
 function App() {
   return (
     <Router>
       <TopNav />
-      <div className="container mx-auto p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/new-post" element={<NewPost />} />
-          <Route path="/post/:slug" element={<PostView />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/newpost" element={<NewPost />} />
+        <Route path="/edit/:id" element={<EditPost />} />
+        <Route path="/post/:id" element={<PostView />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </Router>
   );
 }
